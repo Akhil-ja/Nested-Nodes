@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import routes from "./routes/index.js";
 import { errorMiddleware } from "./middleware/errorHandler.js";
 
 dotenv.config();
@@ -15,6 +16,8 @@ connectDB();
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+
+app.use("/api", routes);
 
 app.use(errorMiddleware);
 
