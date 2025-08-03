@@ -1,8 +1,11 @@
+import { Outlet } from 'react-router-dom';
+import Layout from './components/Layout';
+
 function App() {
   return (
-    <div className="App">
-      <h1>Nested Nodes App</h1>
-    </div>
+    <Layout>
+      <Outlet />
+    </Layout>
   );
 }
 
