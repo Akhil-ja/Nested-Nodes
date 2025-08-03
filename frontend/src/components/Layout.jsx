@@ -1,11 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { NotificationProvider } from "../context/NotificationContext.jsx";
 
 const Layout = () => {
   return (
-    <main>
-      <Outlet />
-    </main>
+    <NotificationProvider>
+      <main>
+        <Outlet />
+      </main>
+    </NotificationProvider>
   );
 };
 
