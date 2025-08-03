@@ -1,5 +1,6 @@
 import Node from "../models/nodeModel.js";
 import AppError from "../utils/appError.js";
+import { STATUS_CODES } from "../utils/statusCodes.js";
 
 export const getAllNodes = async () => {
   return await Node.find();
@@ -15,7 +16,7 @@ export const addRootNode = async () => {
 export const addChildNode = async (parentId) => {
   const parentNode = await Node.findById(parentId);
   if (!parentNode) {
-    throw new AppError("Parent node not found", 404);
+    throw new AppError("Parent node not found", STATUS_CODES.NOT_FOUND);
   }
 
   const parentNameParts = parentNode.name.split(" ");
@@ -38,7 +39,7 @@ export const updateNode = async (id, updateData) => {
   );
 
   if (!updatedNode) {
-    throw new AppError("Node not found", 404);
+    throw new AppError("Node not found", STATUS_CODES.NOT_FOUND);
   }
 
   return updatedNode;
