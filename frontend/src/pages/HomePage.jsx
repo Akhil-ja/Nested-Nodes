@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNodes, createNode } from "../features/nodes/nodesSlice";
 import Node from "../components/Node";
 import { useNotification } from "../hooks/useNotification";
 import styles from "../styles/HomePage.module.css";
+import { CircularProgress, Box } from "@mui/material";
 
 function HomePage() {
   const dispatch = useDispatch();
-  const {
-    nodes = [],
-    status: nodeStatus,
-    error,
-  } = useSelector((state) => state.nodes);
+  const { nodes = [], status: nodeStatus, error } = useSelector(
+    (state) => state.nodes
+  );
   const { showNotification } = useNotification();
 
-  const rootNodes = nodes.filter((node) => node.parentId === null);
+  const rootNodes = useMemo(
+    () => nodes.filter((node) => node.parentId === null),
+    [nodes]
+  );
 
   useEffect(() => {
     if (nodeStatus === "idle") {
@@ -43,7 +45,18 @@ function HomePage() {
   let content;
 
   if (nodeStatus === "loading") {
-    content = <div>Loading nodes...</div>;
+    content = (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   } else if (nodeStatus === "succeeded") {
     content = rootNodes.map((node) => <Node key={node._id} node={node} />);
   } else if (nodeStatus === "failed") {

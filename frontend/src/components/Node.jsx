@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNode, updateNode } from "../features/nodes/nodesSlice";
 import { useNotification } from "../hooks/useNotification";
 import styles from "../styles/Node.module.css";
 
-const Node = ({ node, setNotification }) => {
+const Node = ({ node }) => {
   const dispatch = useDispatch();
   const allNodes = useSelector((state) => state.nodes.nodes);
   const { showNotification } = useNotification();
@@ -12,9 +12,12 @@ const Node = ({ node, setNotification }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(node.name);
 
-  const children = allNodes.filter((n) => n.parentId === node._id);
+  const children = useMemo(
+    () => allNodes.filter((n) => n.parentId === node._id),
+    [allNodes, node._id]
+  );
 
-  const handleAddChild = async () => {
+  const handleAddChild = useCallback(async () => {
     if (node._id) {
       const resultAction = await dispatch(createNode({ parentId: node._id }));
       if (createNode.fulfilled.match(resultAction)) {
@@ -26,13 +29,13 @@ const Node = ({ node, setNotification }) => {
         );
       }
     }
-  };
+  }, [dispatch, node._id, showNotification]);
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     setIsEditing(true);
-  };
+  }, []);
 
-  const handleSaveEdit = async () => {
+  const handleSaveEdit = useCallback(async () => {
     const resultAction = await dispatch(
       updateNode({ id: node._id, name: editedName })
     );
@@ -45,12 +48,12 @@ const Node = ({ node, setNotification }) => {
       );
     }
     setIsEditing(false);
-  };
+  }, [dispatch, node._id, editedName, showNotification]);
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = useCallback(() => {
     setEditedName(node.name);
     setIsEditing(false);
-  };
+  }, [node.name]);
 
   return (
     <div className={styles.nodeContainer}>
@@ -99,15 +102,11 @@ const Node = ({ node, setNotification }) => {
         }`}
       >
         {children.map((child) => (
-          <Node
-            key={child._id}
-            node={child}
-            setNotification={setNotification}
-          />
+          <Node key={child._id} node={child} />
         ))}
       </div>
     </div>
   );
 };
 
-export default Node;
+export default React.memo(Node);
