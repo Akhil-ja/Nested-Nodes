@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchNodes, createNode } from "../features/nodes/nodesSlice";
 import Node from "../components/Node";
 import { useNotification } from "../hooks/useNotification";
+import styles from "../styles/HomePage.module.css";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -50,13 +51,17 @@ function HomePage() {
   }
 
   return (
-    <>
-      <h1>Nested Node App</h1>
+    <div className={styles.homePageContainer}>
       <div>
-        <button onClick={handleAddRootNode}>Add Root Node</button>
+        <button
+          onClick={handleAddRootNode}
+          className={styles.addRootNodeButton}
+        >
+          Add Root Node
+        </button>
       </div>
-      <div style={{ marginTop: "20px" }}>{content}</div>
-    </>
+      <div className={styles.nodesList}>{content}</div>
+    </div>
   );
 }
 

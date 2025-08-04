@@ -1,0 +1,94 @@
+.nodeContainer {
+  padding-left: 15px;
+  margin-top: 12px;
+  border-color: white;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 12px 15px;
+  box-shadow: 0 1px 1px;
+  border: 1px solid black;
+  width: 100%; /* Reverted */
+  /* Removed display: inline-block; */
+  box-sizing: border-box;
+}
+
+.nodeHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 0;
+}
+
+.toggleButton {
+  background: #22333b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease;
+}
+
+.toggleButton:hover {
+  background-color: #3e5c76;
+}
+
+.nodeName {
+  font-size: 1.1em;
+  color: d9d9d9;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.nodeInput {
+  padding: 8px;
+  border: 1px solid #22333b;
+  border-radius: 4px;
+  font-size: 1em;
+  margin-right: 8px;
+  flex-grow: 1;
+  width: auto;
+}
+
+.nodeButton {
+  padding: 8px 15px;
+  background-color: #22333b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.nodeButton:hover {
+  background-color: #3e5c76;
+}
+
+.nodeButton.cancel {
+  background-color: #22333b;
+}
+
+.nodeButton.cancel:hover {
+  background-color: #3e5c76;
+}
+
+.childrenContainer {
+  margin-top: 10px;
+  padding-left: 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.childrenContainer.expanded {
+  max-height: 2000px;
+  transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+}
